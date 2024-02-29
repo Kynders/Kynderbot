@@ -1,0 +1,31 @@
+{
+  "name": "kynderbot",
+  "version": "1.0.0",
+  "description": "Whatsapp bot",
+  "main": "index.js",
+  "type": "commonjs",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "code": "node index --Kynders",
+    "main": "node index"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Kynders"
+  },
+  "keywords": [
+    "wa",
+    "openwa",
+    "wabot",
+    "nodejs"
+  ],
+  "author": "Riky Ripaldo",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "@whiskeysockets/baileys": "^6.6.0",
+    "qrcode-terminal": "^0.12.0"
+  }
+}
