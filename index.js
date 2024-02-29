@@ -2,6 +2,7 @@ const { default: Kynderbot, Browsers, DisconnectReason, useMultiFileAuthState } 
 const axios = require("axios")
 const pino = require("pino")
 const { Boom } = require("@hapi/boom")
+const database = require("./lib/database.json")
 
 const Sayangku = process.argv.includes("--Kynders")
 
@@ -35,18 +36,34 @@ async function KynderbotWhatsapp() {
             jawab = chats.message.conversation
         }
 
-        const kirim = chats ? chats.key.remoteJid : chats.key.participant
-        const orang = chats ? chats.pushName : "Admin"
+        const kirim = chats.key.remoteJid
+        const orang = chats ? chats.pushName : riky.user.id.split(":")[0]
 
-        try {
-            let teks = `\x1b[1;31m~ (${kirim}) ${orang} > ${jawab}`
-            console.log(JSON.stringify(teks, undefined, 2))
-        } catch (error) {
-            Kynderbot()
+        async function balas(tulisan) {
+            await riky.sendMessage(kirim, { text: tulisan }, { quoted: chats })
         }
 
-        if (!kirim.endsWith("@g.us")) {
-            riky.sendMessage(kirim, { text: "yang balas bot ya" })
+        try {
+            let teks = `~ (${kirim}) ${orang} > ${jawab}`
+            console.log(JSON.stringify(teks, undefined, 2))
+
+            if (!chats.key.fromMe) {
+                if (jawab.includes("Ass")) {
+                    balas(database.data.salam)
+                }
+            }
+
+            const reaksi = {
+                react: {
+                    text: "💖",
+                    key: chats.key
+                }
+            }
+            if (!kirim.endsWith("status@broadcast") && !chats.key.fromMe) {
+                riky.sendMessage(kirim, reaksi)
+            }
+        } catch (error) {
+            Kynderbot()
         }
     })
 }
